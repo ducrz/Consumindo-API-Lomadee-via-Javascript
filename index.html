@@ -1,0 +1,52 @@
+<script>
+   if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp = new XMLHttpRequest();
+   } else {// code for IE6, IE5
+    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+   }
+   xmlhttp.open("GET", "https://bws.buscape.com.br/service/findOfferList/lomadee/65717751673178504d42633d/BR/?format=xml&results=1&sourceId=35762099&keyword=Ovo de Páscoa", false);
+   //Edite a variável results para alterar a quantidade de resultados retornados.
+   //O conteúdo da variável keyword é o termo de busca desejado, no exemplo Ovo de Páscoa.
+   //Edite a variável sourceID para o respectivo da sua fonte de tráfego Lomadee.
+   xmlhttp.send();
+   xmlDoc = xmlhttp.responseXML;
+
+   var precos = xmlDoc.getElementsByTagName("price");
+   var offer = xmlDoc.getElementsByTagName("offer");
+
+   var contLink=2;
+   var contThumb=1;
+
+
+   for ( i = 0; i < offer.length; i++) {
+    
+    var links = xmlDoc.getElementsByTagName("link")[contLink].attributes;
+    var thumbs = xmlDoc.getElementsByTagName("thumbnail")[contThumb].attributes;  
+    var loja = offer[i].getElementsByTagName("sellerName")[0].childNodes[0].nodeValue;
+
+      var url = thumbs.getNamedItem("url").nodeValue;
+     
+
+    document.write("<b>Oferta Ovo de Páscoa ");
+    //Altere o título da oferta ou promoção a ser exibida.
+    document.write(loja);
+    document.write(": </b> ");
+    document.write(offer[i].getElementsByTagName("offerShortName")[0].childNodes[0].nodeValue);
+    document.write("<br><a href='");
+    document.write(links.getNamedItem("url").nodeValue);
+    document.write("' target='_blank'>");
+    document.write("<img height='150' width='150' src=");
+    document.write(url);
+    document.write("><br>");
+    document.write(offer[i].getElementsByTagName("offerName")[0].childNodes[0].nodeValue);
+    document.write(" por apenas R$ ");
+    //Altere aqui se desejar o destaque para a oferta.
+    document.write(precos[i].getElementsByTagName("value")[0].childNodes[0].nodeValue);
+    document.write("!<br>");
+    document.write( "</a><br><br>");
+contLink=contLink+2;
+contThumb=contThumb+2;
+   }
+
+
+  </script>
